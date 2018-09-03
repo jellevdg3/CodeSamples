@@ -3,12 +3,12 @@ WavefrontOBJ = function(path, priority)
     this.path = path;
     this.priority = priority;
     
-	// Data
-	this.vertices = [];
-	this.normals = [];
-	this.uvs = [];
-	this.faceVertices = [];
-	this.faceNormals = [];
+    // Data
+    this.vertices = [];
+    this.normals = [];
+    this.uvs = [];
+    this.faceVertices = [];
+    this.faceNormals = [];
     this.faceUVs = [];
 
     this.meshOffsets = [];
@@ -23,42 +23,42 @@ WavefrontOBJ = function(path, priority)
 WavefrontOBJ.prototype.Parse = function()
 {
     var blob = this.file.GetContents();
-	this.parseStartTime = Util.GetTime();
+    this.parseStartTime = Util.GetTime();
 
-	// Data
-	this.vertices = [];
-	this.normals = [];
-	this.uvs = [];
-	this.faceVertices = [];
-	this.faceNormals = [];
-	this.faceUVs = [];
+    // Data
+    this.vertices = [];
+    this.normals = [];
+    this.uvs = [];
+    this.faceVertices = [];
+    this.faceNormals = [];
+    this.faceUVs = [];
     
-	// Text
-	if (typeof blob === "string" || blob instanceof String)
-	{
-		var lines = blob.split(/\r?\n/);
+    // Text
+    if (typeof blob === "string" || blob instanceof String)
+    {
+        var lines = blob.split(/\r?\n/);
 
-		for(var i = 0; i < lines.length; i++)
-		{
-			// Split data row
-			var data = lines[i].split(" ");
-			
-			switch(data[0])
-			{
-				case "v": if (data.length > 3) { this.vertices.push(+data[1]); this.vertices.push(+data[2]); this.vertices.push(+data[3]); } break;
-				case "vn": if (data.length > 3) { this.normals.push(+data[1]); this.normals.push(+data[2]); this.normals.push(+data[3]); } break;
-				case "vt": if (data.length > 2) { this.uvs.push(+data[1]); this.uvs.push(+data[2]); } break;
+        for(var i = 0; i < lines.length; i++)
+        {
+            // Split data row
+            var data = lines[i].split(" ");
+            
+            switch(data[0])
+            {
+                case "v": if (data.length > 3) { this.vertices.push(+data[1]); this.vertices.push(+data[2]); this.vertices.push(+data[3]); } break;
+                case "vn": if (data.length > 3) { this.normals.push(+data[1]); this.normals.push(+data[2]); this.normals.push(+data[3]); } break;
+                case "vt": if (data.length > 2) { this.uvs.push(+data[1]); this.uvs.push(+data[2]); } break;
 
-				case "f":
-					if (data.length != 4)
-					{
-						Logger.LogWarning("Face count is not 3!");
-						return;
-					}
+                case "f":
+                    if (data.length != 4)
+                    {
+                        Logger.LogWarning("Face count is not 3!");
+                        return;
+                    }
 
-					for (var j = 0; j < 3; j++)
-					{
-						var indices = data[j + 1].split("/");
+                    for (var j = 0; j < 3; j++)
+                    {
+                        var indices = data[j + 1].split("/");
                         this.faceVertices.push(indices[0] - 1);
                         if(indices.length > 1)
                         {
@@ -68,28 +68,28 @@ WavefrontOBJ.prototype.Parse = function()
                         {
                             this.faceNormals.push(indices[2] - 1);
                         }
-					}
+                    }
 
-					break;
+                    break;
 
                 case "usemtl":
                     this.meshOffsets.push(this.faceVertices.length);
 
-				default: break;
-			}
-		}
+                default: break;
+            }
+        }
     }
     this.meshOffsets.push(this.faceVertices.length);
     this.meshOffsets._length = this.meshOffsets.length;
 
     this.ConvertVertexData();
 
-	this.parseEndTime = Util.GetTime();
+    this.parseEndTime = Util.GetTime();
 
-	var debugInfo = "";
-	debugInfo += "Vertex count: " + (this.vertices.length / 3) + ". ";
-	debugInfo += "Normal count: " + (this.normals.length / 3) + ". ";
-	debugInfo += "UV count: " + (this.uvs.length / 2) + ". ";
+    var debugInfo = "";
+    debugInfo += "Vertex count: " + (this.vertices.length / 3) + ". ";
+    debugInfo += "Normal count: " + (this.normals.length / 3) + ". ";
+    debugInfo += "UV count: " + (this.uvs.length / 2) + ". ";
     debugInfo += "Face vertex count: " + (this.faceVertices.length / 3) + ". ";
 
     Logger.LogInfo("Wavefront OBJ " + this.path + " parsed in " + (this.parseEndTime - this.parseStartTime) + " milliseconds. Vertex count: " + debugInfo);

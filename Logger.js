@@ -53,9 +53,9 @@ Logger.Exception = function(text, e)
     {
         console.log(timeString + text + (e.stack || e));
     }
-	
-	// Pass the error along to the application.
-	Application.Error(e);
+    
+    // Pass the error along to the application.
+    Application.Error(e);
 }
 
 // Log an error message with ERROR prefix. Used when something goes very wrong. It is considered application-breaking and an error will appear on screen.

@@ -387,7 +387,7 @@ long BufferedFileStream::GetTotalWrittenBytes()
 void BufferedFileStream::Close()
 {
     mData->mInStream.close();
-	mData->mOutStream.close();
+    mData->mOutStream.close();
 }
 
 /// Utility functions for reading/writing data ///

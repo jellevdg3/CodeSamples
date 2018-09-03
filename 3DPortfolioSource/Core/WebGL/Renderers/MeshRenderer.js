@@ -1,7 +1,7 @@
 MeshRenderer = function(sceneContainer, mesh, material)
 {
     this.sceneContainer = sceneContainer;
-	this.mesh = mesh;
+    this.mesh = mesh;
     this.material = material;
     
     this.scene = this.sceneContainer.scene;

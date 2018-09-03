@@ -26,11 +26,11 @@ namespace ZombieWars.com.jellevdg3.src
 
         public ThreadRunner()
         {
-			hasThreadStarted = false;
-			isThreadRunning = false;
-			hasThreadStopped = false;
-			shouldThreadStop = false;
-			
+            hasThreadStarted = false;
+            isThreadRunning = false;
+            hasThreadStopped = false;
+            shouldThreadStop = false;
+            
             thread = new Thread(new ThreadStart(OnThreadStart));
             threadDataLock = new object();
         }
@@ -39,8 +39,8 @@ namespace ZombieWars.com.jellevdg3.src
         protected abstract void OnStart();
         protected abstract void OnTick();
         protected abstract void OnStop();
-		
-		// Start the thread runner.
+        
+        // Start the thread runner.
         public void Start()
         {
             lock (threadDataLock)
@@ -53,7 +53,7 @@ namespace ZombieWars.com.jellevdg3.src
             }
         }
 
-		// Is the thread runner running? (thread-context-safe)
+        // Is the thread runner running? (thread-context-safe)
         public bool IsRunning()
         {
             lock (threadDataLock)
@@ -62,25 +62,25 @@ namespace ZombieWars.com.jellevdg3.src
             }
         }
 
-		// Is the thread runner running? (not thread-context-safe, be careful when using this function from another thread for race-conditions)
+        // Is the thread runner running? (not thread-context-safe, be careful when using this function from another thread for race-conditions)
         public bool UnsafeIsRunning()
         {
             return !isThreadRunning;
         }
 
-		// Stop the thread runner.
+        // Stop the thread runner.
         public void Stop()
         {
-			shouldThreadStop = true;
+            shouldThreadStop = true;
         }
-		
-		// Obtain the thread context.
+        
+        // Obtain the thread context.
         public Thread GetThread()
         {
             return thread;
         }
 
-		// [PRIVATE EVENT]: Executed when the thread is started after Start() is executed.
+        // [PRIVATE EVENT]: Executed when the thread is started after Start() is executed.
         private void OnThreadStart()
         {
             try
@@ -92,30 +92,30 @@ namespace ZombieWars.com.jellevdg3.src
                     isThreadRunning = true;
                 }
 
-				// Thread running loop.
+                // Thread running loop.
                 while (!shouldThreadStop)
                 {
                     OnTick();
                 }
-				
-				lock (threadDataLock)
+                
+                lock (threadDataLock)
                 {
-					isThreadRunning = false;
-				}
+                    isThreadRunning = false;
+                }
             }
             catch (Exception e)
             {
-				// Pass error to application.
+                // Pass error to application.
                 Application.GetLogger().Error(e.ToString());
             }
 
             Stop();
-			OnStop();
-			
-			lock (threadDataLock)
+            OnStop();
+            
+            lock (threadDataLock)
             {
-				hasThreadStopped = true;
-			}
+                hasThreadStopped = true;
+            }
         }
     }
 }

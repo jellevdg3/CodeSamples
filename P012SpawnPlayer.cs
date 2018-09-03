@@ -34,8 +34,8 @@ namespace MCRPG.src.game.packets.play.server
             public string value;
             public string signature;
         }
-		
-		// Get packet data length. (Packet protocol requires us to know the length before we write the packet)
+        
+        // Get packet data length. (Packet protocol requires us to know the length before we write the packet)
         public override int getLength(AdvancedStream s)
         {
             int dataLength = 0;
@@ -74,7 +74,7 @@ namespace MCRPG.src.game.packets.play.server
             ;
         }
 
-		// Write packet data.
+        // Write packet data.
         public override bool Write(AdvancedStream s)
         {
             s.WriteVarInt(entitiyId);

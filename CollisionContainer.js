@@ -19,8 +19,8 @@ CollisionContainer = function()
     this.boxes = [];
 
     this.isColliding = false;
-	
-	this.onCollideEvent = undefined;
+    
+    this.onCollideEvent = undefined;
 };
 
 // Add a collision box to this collision container based on: x, y, width, height.
@@ -44,7 +44,7 @@ CollisionContainer.prototype.IsCollidingWith = function(checkContainer)
     var cx2 = cx1 + checkContainer.width;
     var cy2 = cy1 + checkContainer.height;
 
-	// AABB collision check
+    // AABB collision check
     return CollisionUtil.CheckCollision(tx1, ty1, tx2, ty2, cx1, cy1, cx2, cy2);
 };
 
@@ -53,7 +53,7 @@ CollisionContainer.prototype.CollisionCheck = function(gameObjects)
 {
     for(var i = 0; i < gameObjects.length; i++)
     {
-		var otherCollisionContainer = gameObjects[i].collisionContainer;
+        var otherCollisionContainer = gameObjects[i].collisionContainer;
         if(otherCollisionContainer.IsCollidingWith(this))
         {
             if(otherCollisionContainer.boxes.length == 1 && this.boxes.length == 1)
